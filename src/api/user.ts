@@ -1,7 +1,18 @@
+import User from "@/types/user.interface";
 import { ApiResponse, LoginRequest, LoginResponse, MeResponse, RegisterRequest, VerifyRequest } from "@/types/userdao.interface";
 
 // const BASE_URL = "http://localhost:9000/api/user";
 const BASE_URL = "https://bakery-backend-1-ltml.onrender.com/api/user";
+
+function saveLocalUser(user: User) {
+    localStorage.setItem(
+        "auth",
+        JSON.stringify({
+            user: user,
+            expiresAt: Date.now() + 7 * 24 * 60 * 60 * 1000, // 7 days
+        })
+    );
+}
 
 /* ---------------- Register ---------------- */
 
@@ -30,7 +41,23 @@ export async function verify(data: VerifyRequest): Promise<ApiResponse> {
         body: JSON.stringify(data),
     });
 
-    return response.json();
+    const result = await response.json();
+
+    if (!result.success) {
+        return result;
+    }
+
+    const meResp: MeResponse = await getMe();
+
+    if (!meResp.success) {
+        console.error(meResp.message);
+    }
+
+    if (meResp.success) {
+        saveLocalUser(meResp.user!);
+    }
+
+    return result;
 }
 
 /* ---------------- Login ---------------- */
@@ -45,9 +72,13 @@ export async function login(data: LoginRequest): Promise<LoginResponse> {
         body: JSON.stringify(data),
     });
 
-    console.log(response);
+    const result: LoginResponse = await response.json();
 
-    return response.json();
+    if (result.success) {
+        saveLocalUser(result.user);
+    }
+
+    return result;
 }
 
 /* ---------------- Get Me ---------------- */
@@ -66,6 +97,8 @@ export async function logout(): Promise<MeResponse> {
         method: "GET",
         credentials: "include",
     });
+
+    localStorage.removeItem("auth");
 
     return response.json();
 }
@@ -87,5 +120,39 @@ export async function googleLogin(
         }),
     });
 
-    return response.json();
+    const result: LoginResponse = await response.json();
+    
+    if(!result.success){
+        alert("google login failed");
+    }
+    else{
+        saveLocalUser(result.user);
+    }
+
+
+    return result;
+}
+
+/* ---------------- Get Local User ---------------- */
+
+export function getLocalStorageUser(): User | undefined {
+    const auth = localStorage.getItem("auth");
+
+    if (!auth) {
+        return undefined;
+    }
+
+    try {
+        const parsed = JSON.parse(auth);
+
+        if (Date.now() > parsed.expiresAt) {
+            localStorage.removeItem("auth");
+            return undefined;
+        }
+
+        return parsed.user as User;
+    } catch {
+        localStorage.removeItem("auth");
+        return undefined;
+    }
 }

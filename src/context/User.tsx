@@ -1,5 +1,5 @@
 // contexts/LoaderContext.tsx
-import { getMe } from '@/api/user';
+import { getLocalStorageUser, getMe } from '@/api/user';
 import User, { UserContentType } from '@/types/user.interface';
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { useLoader } from './UniversalContext';
@@ -14,7 +14,18 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
     useEffect(() => {
         (async () => {
-            console.log("1. UserProvider started");
+
+            const staticUser = getLocalStorageUser();
+
+            if (staticUser) {
+                console.log("loading user from local storage");
+                setUser(staticUser);
+                console.log("user loaded from local storage");
+                setIsUserLoading(false);
+                return;
+            }
+
+            console.log("1. UserProvider started loading from /me");
 
             try {
                 console.log("2. Calling getMe()");
