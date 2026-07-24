@@ -1,7 +1,7 @@
 import { ApiResponse, LoginRequest, LoginResponse, MeResponse, RegisterRequest, VerifyRequest } from "@/types/userdao.interface";
 
 // const BASE_URL = "http://localhost:9000/api/user";
-const BASE_URL = import.meta.env.VITE_BASE_URL;
+const BASE_URL = "https://bakery-backend-1-ltml.onrender.com/api/user";
 
 /* ---------------- Register ---------------- */
 
