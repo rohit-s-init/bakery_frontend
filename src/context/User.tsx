@@ -14,17 +14,26 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
     useEffect(() => {
         (async () => {
-            const fetchedUser = await getMe();
-            if (!fetchedUser.success) {
-                console.error(fetchedUser.message);
+            console.log("1. UserProvider started");
+
+            try {
+                console.log("2. Calling getMe()");
+                const fetchedUser = await getMe();
+                console.log("3. getMe returned", fetchedUser);
+
+                if (!fetchedUser.success) {
+                    console.error(fetchedUser.message);
+                } else {
+                    setUser(fetchedUser.user);
+                }
+            } catch (err) {
+                console.error("4. getMe threw:", err);
+            } finally {
+                console.log("5. Setting loading false");
+                setIsUserLoading(false);
             }
-            else {
-                setUser(fetchedUser.user);
-            }
-            setIsUserLoading(false);
-            // setIsLoaderVisible(false);
         })();
-    }, [])
+    }, []);
 
     async function reloadUser() {
         (async () => {
