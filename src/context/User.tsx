@@ -21,28 +21,29 @@ export function UserProvider({ children }: { children: ReactNode }) {
                 console.log("loading user from local storage");
                 setUser(staticUser);
                 console.log("user loaded from local storage");
-                setIsUserLoading(false);
-                return;
             }
 
-            console.log("1. UserProvider started loading from /me");
+            setIsUserLoading(false);
 
-            try {
-                console.log("2. Calling getMe()");
-                const fetchedUser = await getMe();
-                console.log("3. getMe returned", fetchedUser);
 
-                if (!fetchedUser.success) {
-                    console.error(fetchedUser.message);
-                } else {
-                    setUser(fetchedUser.user);
-                }
-            } catch (err) {
-                console.error("4. getMe threw:", err);
-            } finally {
-                console.log("5. Setting loading false");
-                setIsUserLoading(false);
-            }
+            // console.log("1. UserProvider started loading from /me");
+
+            // try {
+            //     console.log("2. Calling getMe()");
+            //     const fetchedUser = await getMe();
+            //     console.log("3. getMe returned", fetchedUser);
+
+            //     if (!fetchedUser.success) {
+            //         console.error(fetchedUser.message);
+            //     } else {
+            //         setUser(fetchedUser.user);
+            //     }
+            // } catch (err) {
+            //     console.error("4. getMe threw:", err);
+            // } finally {
+            //     console.log("5. Setting loading false");
+            //     setIsUserLoading(false);
+            // }
         })();
     }, []);
 

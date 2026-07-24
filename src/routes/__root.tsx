@@ -129,7 +129,7 @@ export function ContextLaybout({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (isUserLoading) {
-      setIsLoaderVisible(true);
+      setIsLoaderVisible(false);
     }
     else {
       setIsLoaderVisible(false);
