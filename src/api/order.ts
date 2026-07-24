@@ -1,7 +1,7 @@
 import { AddOrderRequest, ApiResponse, GetOrdersResponse } from "@/types/orderdao.interface";
 
 
-const BASE_URL = "http://localhost:9000/api/order";
+const BASE_URL = "https://bakery-backend-1-ltml.onrender.com/api/order";
 
 /* ---------------- Add Order ---------------- */
 
