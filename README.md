@@ -1,4 +1,6 @@
-# Welcome to your Lovable project
+# Welcome to your Lovable project 
+
+this project is build using the lovable with custom editing
 
 This project was built with [Lovable](https://lovable.dev).
 
@@ -27,3 +29,6 @@ npm run dev
 - TypeScript
 - React
 - Tailwind CSS
+
+
+
