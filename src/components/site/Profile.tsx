@@ -24,6 +24,8 @@ import { getUserOrders } from '@/api/order';
 import { logout } from '@/api/user';
 import { Order } from '@/types/orderdao.interface';
 import ComponentSpin from '../ui/component-spin';
+import ReactGA from "react-ga4";
+
 
 // Define proper types
 interface UserProfile {
@@ -142,6 +144,13 @@ export function ProfilePage() {
       await logout();
       await reloadUser();
       navigate({ to: "/" });
+
+      try {
+        ReactGA.event("logout", {});
+      } catch (error) {
+        console.log(error);
+      }
+
     } catch (error) {
       console.error('Logout error:', error);
     } finally {
