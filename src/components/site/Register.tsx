@@ -30,6 +30,8 @@ import Loader from '../ui/loader';
 import { useLoader } from '@/context/UniversalContext';
 import { useUser } from '@/context/User';
 import { GoogleLogin } from '@react-oauth/google';
+import ReactGA from "react-ga4";
+
 
 const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -96,6 +98,13 @@ const RegisterPage = () => {
       })
 
       setIsOTPVisible(true);
+      try {
+        ReactGA.event("sign_up", {
+          method: "email_password",
+        });
+      } catch (error) {
+        console.log(error);
+      }
       setIsLoaderVisible(false);
 
       // Handle registration logic here
@@ -453,6 +462,15 @@ const RegisterPage = () => {
                       } else {
                         alert(result.message);
                       }
+
+                      try {
+                        ReactGA.event("sign_up", {
+                          method: "google",
+                        });
+                      } catch (error) {
+                        console.log(error);
+                      }
+
                     } finally {
                       setIsLoaderVisible(false);
                     }

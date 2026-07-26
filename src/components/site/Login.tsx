@@ -23,6 +23,7 @@ import { ApiResponse, LoginResponse, MeResponse } from '@/types/userdao.interfac
 import { getMe, googleLogin, login } from '@/api/user';
 import { useUser } from '@/context/User';
 import { GoogleLogin } from "@react-oauth/google";
+import ReactGA from "react-ga4";
 
 
 const LoginPage = () => {
@@ -49,7 +50,6 @@ const LoginPage = () => {
       password: password
     });
 
-    setIsLoaderVisible(false);
 
     // alert(JSON.stringify(resp));
     // alert("done");
@@ -62,6 +62,17 @@ const LoginPage = () => {
     else {
       alert("invalid credentials");
     }
+
+    try {
+      ReactGA.event("login", {
+        method: "email_password",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+
+    setIsLoaderVisible(false);
+
   };
 
   return (

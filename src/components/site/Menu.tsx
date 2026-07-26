@@ -9,6 +9,8 @@ import { OrderPopup } from "../ui/order-popup";
 import { addOrder } from "@/api/order";
 import { ApiResponse } from "@/types/orderdao.interface";
 import { getLocalStorageUser } from "@/api/user";
+import ReactGA from "react-ga4";
+
 
 const items = [
   { img: macarons, name: "Rose Macarons", price: "$3.50", desc: "Delicate almond shells with rose cream", tag: "Bestseller" },
@@ -73,6 +75,16 @@ export function MenuSection() {
 
     if (!response.success) {
       alert("Error : " + response.message);
+    }
+
+    try {
+      ReactGA.event("purchase", {
+        name: orderData.name,
+        quantity: orderData.quantity,
+        price: Number(total)
+      });
+    } catch (error) {
+      console.log(error);
     }
     //     alert(`Order placed for ${selectedItem.name}! 
     // Total: $${total}
