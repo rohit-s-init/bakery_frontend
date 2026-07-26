@@ -147,6 +147,7 @@ export function ContextLaybout({ children }: { children: ReactNode }) {
   const location = useLocation();
 
   useEffect(() => {
+    console.log("sending te ga event page view : "+location.pathname);
     ReactGA.send({
       hitType: "pageview",
       page: location.pathname,
