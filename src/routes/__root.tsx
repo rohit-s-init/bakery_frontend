@@ -7,6 +7,7 @@ import {
   useRouter,
   HeadContent,
   Scripts,
+  useLocation,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
@@ -15,6 +16,8 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { UserProvider, useUser } from "@/context/User";
 import { LoaderProvider, useLoader } from "@/context/UniversalContext";
 import Loader from "@/components/ui/loader";
+
+import ReactGA from "react-ga4";
 
 function NotFoundComponent() {
   return (
@@ -98,10 +101,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Dancing+Script:wght@500;700&display=swap",
       },
     ],
-    scripts: [
-      { src: "https://www.googletagmanager.com/gtag/js?id=G-RZTMMPXDT5", async: true },
-      { innerHTML: "window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-RZTMMPXDT5');" },
-    ],
+    scripts: [],
   }),
   shellComponent: RootShell,
   component: RootComponent,
@@ -135,6 +135,24 @@ export function ContextLaybout({ children }: { children: ReactNode }) {
       setIsLoaderVisible(false);
     }
   }, [isUserLoading])
+
+  useEffect(() => {
+    ReactGA.initialize("G-44V6FZ3VT1", {
+      gaOptions: {
+        send_page_view: false,
+      },
+    });
+  }, []);
+
+  const location = useLocation();
+
+  useEffect(() => {
+    ReactGA.send({
+      hitType: "pageview",
+      page: location.pathname,
+      title: document.title,
+    });
+  }, [location.pathname]);
 
   return (
     <>
