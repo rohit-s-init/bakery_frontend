@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { X, MapPin, Phone, User, ShoppingBag, ChevronDown, ChevronUp } from "lucide-react";
+import { X, MapPin, Phone, User, ShoppingBag, ChevronDown, ChevronUp, Lock, Ban, UserX } from "lucide-react";
 
 interface OrderPopupProps {
     isOpen: boolean;
@@ -12,6 +12,7 @@ interface OrderPopupProps {
         tag: string;
     };
     onSubmit: (orderData: OrderData) => void;
+    isActive: boolean;
 }
 
 interface OrderData {
@@ -22,7 +23,7 @@ interface OrderData {
     notes: string;
 }
 
-export function OrderPopup({ isOpen, onClose, item, onSubmit }: OrderPopupProps) {
+export function OrderPopup({ isOpen, onClose, item, onSubmit, isActive }: OrderPopupProps) {
     const [formData, setFormData] = useState<OrderData>({
         name: "",
         phone: "",
@@ -285,16 +286,33 @@ export function OrderPopup({ isOpen, onClose, item, onSubmit }: OrderPopupProps)
                             {/* Submit Button */}
                             <button
                                 type="submit"
-                                disabled={isSubmitting}
-                                className="w-full py-4 px-6 rounded-full bg-primary text-white font-medium 
-                  shadow-soft hover:scale-[1.02] transition-all duration-300 
-                  flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                                disabled={isSubmitting || !isActive}
+                                className={`w-full py-4 px-6 rounded-full font-medium shadow-soft
+        flex items-center justify-center gap-2 transition-all duration-300
+        ${!isActive
+                                        ? "bg-gray-300 text-gray-500 cursor-not-allowed opacity-60 grayscale"
+                                        : "bg-primary text-white hover:scale-[1.02]"
+                                    }
+        ${isSubmitting ? "opacity-70 cursor-not-allowed" : ""}
+    `}
                             >
                                 {isSubmitting ? (
                                     <>
                                         <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                                            <circle
+                                                className="opacity-25"
+                                                cx="12"
+                                                cy="12"
+                                                r="10"
+                                                stroke="currentColor"
+                                                strokeWidth="4"
+                                                fill="none"
+                                            />
+                                            <path
+                                                className="opacity-75"
+                                                fill="currentColor"
+                                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                            />
                                         </svg>
                                         Processing...
                                     </>
@@ -302,6 +320,11 @@ export function OrderPopup({ isOpen, onClose, item, onSubmit }: OrderPopupProps)
                                     <>
                                         <ShoppingBag className="w-5 h-5" />
                                         Order Placed! 🎉
+                                    </>
+                                ) : !isActive ? (
+                                    <>
+                                        <Lock className="w-5 h-5" />
+                                        Login Required
                                     </>
                                 ) : (
                                     <>

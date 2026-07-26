@@ -20,9 +20,10 @@ import {
 import { useLoader } from '@/context/UniversalContext';
 import { useNavigate } from '@tanstack/react-router';
 import { useUser } from '@/context/User';
-import { getUserOrders} from '@/api/order';
+import { getUserOrders } from '@/api/order';
 import { logout } from '@/api/user';
 import { Order } from '@/types/orderdao.interface';
+import ComponentSpin from '../ui/component-spin';
 
 // Define proper types
 interface UserProfile {
@@ -51,7 +52,7 @@ export function ProfilePage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  
+
   const { setIsLoaderVisible } = useLoader();
   const navigate = useNavigate();
 
@@ -83,7 +84,7 @@ export function ProfilePage() {
         setIsLoading(true);
         setError(null);
         const response = await getUserOrders();
-        
+
         if (response.success) {
           setOrders(response.orders);
         } else {
@@ -113,7 +114,7 @@ export function ProfilePage() {
     else if (name.includes('éclair') || name.includes('eclair')) emoji = '🍫';
     else if (name.includes('cake') || name.includes('fraisier')) emoji = '🎂';
     else if (name.includes('assortment') || name.includes('palette')) emoji = '📦';
-    
+
     // Generate a tag based on order status or product
     let tag = '';
     const status = 'PENDING';
@@ -122,7 +123,7 @@ export function ProfilePage() {
     // else if (status === 'PREPARING') tag = 'Preparing';
     // else if (status === 'CONFIRMED') tag = 'Confirmed';
     tag = "Pending";
-    
+
     return {
       ...order,
       img: emoji,
@@ -184,13 +185,13 @@ export function ProfilePage() {
               </div>
             </div>
             <div className="flex gap-2">
-              <button 
+              <button
                 className="p-2 rounded-full bg-white/80 shadow-sm hover:shadow-md transition-shadow"
                 onClick={() => setActiveTab('settings')}
               >
                 <Settings size={20} className="text-amber-700" />
               </button>
-              <button 
+              <button
                 className="p-2 rounded-full bg-white/80 shadow-sm hover:shadow-md transition-shadow"
                 onClick={handleLogout}
               >
@@ -249,8 +250,13 @@ export function ProfilePage() {
                           <Icon size={20} className="text-amber-700" />
                         </div>
                       </div>
-                      <div className="text-2xl font-display text-primary">{stat.value}</div>
-                      <div className="text-xs text-muted-foreground">{stat.label}</div>
+                      {/* write here */}
+                      {/* <div className="text-2xl font-display text-primary">{stat.value}</div>
+                      <div className="text-xs text-muted-foreground">{stat.label}</div> */}
+                      {isLoading ? <ComponentSpin /> : <>
+                        <div className="text-2xl font-display text-primary">{stat.value}</div>
+                        <div className="text-xs text-muted-foreground">{stat.label}</div>
+                      </>}
                     </div>
                   );
                 })}
@@ -304,7 +310,7 @@ export function ProfilePage() {
                 <div className="text-center py-12">
                   <AlertCircle size={48} className="mx-auto text-red-400 mb-4" />
                   <p className="text-red-600">{error}</p>
-                  <button 
+                  <button
                     onClick={() => window.location.reload()}
                     className="mt-4 text-sm text-amber-700 hover:text-amber-800 transition-colors"
                   >
@@ -316,7 +322,7 @@ export function ProfilePage() {
                   <Package size={48} className="mx-auto text-gray-300 mb-4" />
                   <p className="text-muted-foreground">No orders yet</p>
                   <p className="text-sm text-muted-foreground/70">Start your sweet journey with us!</p>
-                  <button 
+                  <button
                     onClick={() => navigate({ to: '/menu' })}
                     className="mt-4 inline-flex items-center gap-2 rounded-full bg-amber-700 text-white px-6 py-2.5 font-medium shadow-soft hover:scale-105 transition-transform"
                   >
@@ -462,7 +468,7 @@ export function ProfilePage() {
                 </div>
 
                 {/* Logout */}
-                <button 
+                <button
                   onClick={handleLogout}
                   className="w-full py-3 rounded-xl bg-red-50 text-red-600 hover:bg-red-100 transition-colors font-medium"
                 >

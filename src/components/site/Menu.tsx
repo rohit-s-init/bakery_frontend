@@ -8,6 +8,7 @@ import { useState } from "react";
 import { OrderPopup } from "../ui/order-popup";
 import { addOrder } from "@/api/order";
 import { ApiResponse } from "@/types/orderdao.interface";
+import { getLocalStorageUser } from "@/api/user";
 
 const items = [
   { img: macarons, name: "Rose Macarons", price: "$3.50", desc: "Delicate almond shells with rose cream", tag: "Bestseller" },
@@ -150,6 +151,7 @@ export function MenuSection() {
           onClose={handleClosePopup}
           item={selectedItem}
           onSubmit={handleOrderSubmit}
+          isActive={getLocalStorageUser() ? true : false}
         />
       )}
 
