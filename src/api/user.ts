@@ -156,3 +156,24 @@ export function getLocalStorageUser(): User | undefined {
         return undefined;
     }
 }
+
+export async function getLocalStorageUserServer(): Promise<User | undefined> {
+    const auth = localStorage.getItem("auth");
+
+    if (!auth) {
+        return undefined;
+    }
+
+    try {
+        const user = await getMe();
+        if(user == undefined){
+            return undefined;
+        }
+        else{
+            return user.user;
+        }
+    } catch {
+        localStorage.removeItem("auth");
+        return undefined;
+    }
+}

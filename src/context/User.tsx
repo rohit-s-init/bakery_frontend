@@ -17,10 +17,16 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
             const staticUser = getLocalStorageUser();
 
+            if (!staticUser) {
+                setIsUserLoading(false);
+                return;
+            }
+
             if (staticUser) {
-                console.log("loading user from local storage");
-                setUser(staticUser);
-                console.log("user loaded from local storage");
+                // console.log("loading user from local storage");
+                // setUser(staticUser);
+                // console.log("user loaded from local storage");
+                await reloadUser();
             }
 
             setIsUserLoading(false);

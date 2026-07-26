@@ -28,6 +28,7 @@ import { register, verify } from '@/api/user';
 import { ApiResponse } from '@/types/userdao.interface';
 import Loader from '../ui/loader';
 import { useLoader } from '@/context/UniversalContext';
+import { useUser } from '@/context/User';
 
 const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -41,6 +42,7 @@ const RegisterPage = () => {
     acceptTerms: false
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const { reloadUser } = useUser();
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
@@ -153,15 +155,18 @@ const RegisterPage = () => {
       otp: parseInt(otp)
     });
 
-    setIsLoaderVisible(false);
+
 
     if (resp.success) {
       navigate({ to: "/" });
+      await reloadUser();
     }
     else {
       alert(resp.message);
     }
-    
+
+    setIsLoaderVisible(false);
+
 
   };
 
