@@ -90,6 +90,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:description", content: "Pastry Palette is a premium artisan bakery crafting elegant French pastries, cakes, and macarons — baked fresh daily with love." },
       { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/a5faa7bc-45a1-4f89-97e4-bef80c4fd57b/id-preview-6cf494c9--92d4aed7-4832-4eaf-a5e7-3e564f01125f.lovable.app-1784622804612.png" },
       { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/a5faa7bc-45a1-4f89-97e4-bef80c4fd57b/id-preview-6cf494c9--92d4aed7-4832-4eaf-a5e7-3e564f01125f.lovable.app-1784622804612.png" },
+      {
+        name: "google-site-verification",
+        content: "dvnkcrDmJg8JJK524SWa86l4CGEJvEnML_upJp480qg",
+      },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -147,7 +151,7 @@ export function ContextLaybout({ children }: { children: ReactNode }) {
   const location = useLocation();
 
   useEffect(() => {
-    console.log("sending te ga event page view : "+location.pathname);
+    console.log("sending te ga event page view : " + location.pathname);
     ReactGA.send({
       hitType: "pageview",
       page: location.pathname,
