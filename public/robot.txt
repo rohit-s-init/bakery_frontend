@@ -1,0 +1,15 @@
+# robots.txt for Pastry Palette Bakery
+
+User-agent: *
+
+# Allow public website pages
+Allow: /
+
+# Prevent indexing of authentication and user-specific pages
+Disallow: /login
+Disallow: /register
+Disallow: /profile
+Disallow: /Order
+
+# Sitemap location
+Sitemap: https://bakery-frontend-sandy.vercel.app/sitemap.xml
