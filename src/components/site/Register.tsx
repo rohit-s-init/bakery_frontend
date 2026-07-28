@@ -496,6 +496,7 @@ const RegisterPage = () => {
         isVisible={isOTPVisible}
         setIsVisible={setIsOTPVisible}
         onVerify={handleVerify}
+        email={formData.email}
       />
 
     </div>

@@ -29,17 +29,17 @@ export function Hero() {
 
           <div className="mt-8 flex flex-wrap gap-4">
             <Link
-              to="/services"
+              to="/menu"
               className="group inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-7 py-4 font-medium shadow-soft hover:scale-105 transition-transform"
             >
               Explore the Menu
               <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
             </Link>
             <Link
-              to="/about"
+              to="/login"
               className="inline-flex items-center gap-2 rounded-full glass px-7 py-4 font-medium text-primary hover:bg-cream transition-colors"
             >
-              Our Story
+              Login
             </Link>
           </div>
 

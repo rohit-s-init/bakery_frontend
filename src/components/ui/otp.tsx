@@ -4,9 +4,10 @@ interface OTPPopupProps {
   isVisible: boolean;
   setIsVisible: (visible: boolean) => void;
   onVerify: (otp: string) => void;
+  email: string
 }
 
-const OTPPopup: React.FC<OTPPopupProps> = ({ isVisible, setIsVisible, onVerify }) => {
+const OTPPopup: React.FC<OTPPopupProps> = ({ isVisible, setIsVisible, onVerify, email }) => {
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const [error, setError] = useState('');
 
@@ -51,20 +52,20 @@ const OTPPopup: React.FC<OTPPopupProps> = ({ isVisible, setIsVisible, onVerify }
   return (
     <>
       {/* Overlay - reduced blur */}
-      <div 
+      <div
         className="fixed inset-0 bg-black/40 z-50"
         onClick={handleClose}
       />
-      
+
       {/* Popup - centered with bottom slide animation */}
-      <div 
+      <div
         className={`
           fixed inset-0 z-50 flex items-center justify-center p-4
           transition-all duration-500 ease-out
           ${isVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'}
         `}
       >
-        <div 
+        <div
           className={`
             bg-white rounded-3xl shadow-2xl max-w-md w-full p-6 md:p-8
             transform transition-all duration-500 ease-out
@@ -73,7 +74,7 @@ const OTPPopup: React.FC<OTPPopupProps> = ({ isVisible, setIsVisible, onVerify }
           `}
         >
           {/* Close button */}
-          <button 
+          <button
             onClick={handleClose}
             className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
           >
@@ -88,7 +89,7 @@ const OTPPopup: React.FC<OTPPopupProps> = ({ isVisible, setIsVisible, onVerify }
               We've sent a 6-digit code to your email
             </p>
             <p className="text-amber-700 text-sm font-medium mt-1">
-              rohitrameshwarsawant@gmail.com
+              {email}
             </p>
           </div>
 
@@ -130,7 +131,7 @@ const OTPPopup: React.FC<OTPPopupProps> = ({ isVisible, setIsVisible, onVerify }
           </form>
 
           <div className="mt-4 text-center">
-            <button 
+            <button
               className="text-amber-600 text-sm hover:text-amber-800 transition-colors"
               onClick={() => {
                 setOtp(['', '', '', '', '', '']);

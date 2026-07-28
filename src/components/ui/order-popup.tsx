@@ -35,6 +35,7 @@ export function OrderPopup({ isOpen, onClose, item, onSubmit, isActive }: OrderP
     const [errors, setErrors] = useState<Partial<OrderData>>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [orderSuccess, setOrderSuccess] = useState(false);
+    const [isDone,setIsDone] = useState(false);
 
     // Extended description with more details
     const fullDescription = `${item.desc}. Made with premium ingredients and traditional French techniques. 
@@ -71,6 +72,8 @@ export function OrderPopup({ isOpen, onClose, item, onSubmit, isActive }: OrderP
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        if(isDone) return;
+
         if (!validateForm()) return;
 
         setIsSubmitting(true);
@@ -80,6 +83,7 @@ export function OrderPopup({ isOpen, onClose, item, onSubmit, isActive }: OrderP
             await new Promise(resolve => setTimeout(resolve, 1500));
             onSubmit(formData);
             setOrderSuccess(true);
+            setIsDone(true);
 
             // Reset form after success
             setTimeout(() => {
