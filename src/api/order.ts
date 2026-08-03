@@ -2,6 +2,8 @@ import { AddOrderRequest, ApiResponse, GetOrdersResponse } from "@/types/orderda
 
 
 const BASE_URL = "https://bakery-backend-1-ltml.onrender.com/api/order";
+// const BASE_URL = "http://localhost:9000/api/order";
+
 
 /* ---------------- Add Order ---------------- */
 

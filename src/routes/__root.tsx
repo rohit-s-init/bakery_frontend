@@ -18,6 +18,7 @@ import { LoaderProvider, useLoader } from "@/context/UniversalContext";
 import Loader from "@/components/ui/loader";
 
 import ReactGA from "react-ga4";
+import ChatPopup from "@/components/site/ai";
 
 function NotFoundComponent() {
   return (
@@ -178,9 +179,13 @@ function RootComponent() {
           <ContextLaybout>
 
 
+
+
             <QueryClientProvider client={queryClient}>
               <Outlet />
             </QueryClientProvider>
+
+            <ChatPopup />
 
 
           </ContextLaybout>
